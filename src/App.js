@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Navbar from "./components/layouts/Navbar";
+import { makeStyles } from "@material-ui/styles";
+import Home from "./components/pages/Home";
+import AddBlog from "./components/pages/AddBlog";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import BlogContextProvider from "./context/blogContext";
+import Blog from "./components/pages/Blog";
 
 function App() {
+  const classes = useStyles();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <BlogContextProvider>
+        <div className={classes.root}>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/add-blog" component={AddBlog} />
+            <Route exact path="/:id" component={Blog} />
+          </Switch>
+        </div>
+      </BlogContextProvider>
+    </Router>
   );
 }
+
+const useStyles = makeStyles({
+  root: {
+    width: "60%",
+    margin: "auto",
+  },
+});
 
 export default App;
