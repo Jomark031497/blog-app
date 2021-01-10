@@ -1,10 +1,12 @@
 import { makeStyles } from "@material-ui/styles";
-import { useContext, useState } from "react";
-import { BlogContext } from "../../context/blogContext";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addBlog } from "../../redux";
 
 const AddBlog = () => {
   const classes = useStyles();
-  const { dispatch } = useContext(BlogContext);
+
+  const dispatch = useDispatch();
 
   const [blog, setBlog] = useState({
     title: "",
@@ -16,7 +18,7 @@ const AddBlog = () => {
     e.preventDefault();
 
     if (!blog.title || !blog.author || !blog.content) return;
-    dispatch({ type: "ADD_BLOG", blog });
+    dispatch(addBlog(blog));
     console.log("okay!");
     setBlog({ title: "", author: "", content: "" });
   };

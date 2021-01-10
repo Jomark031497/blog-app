@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { BlogContext } from "../../context/blogContext";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const classes = useStyles();
 
-  const { blogs } = useContext(BlogContext);
+  //const { blogs } = useContext(BlogContext);
+
+  const blogs = useSelector(state => state.blogs);
 
   return (
     <div className={classes.root}>

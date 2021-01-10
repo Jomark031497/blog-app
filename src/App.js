@@ -4,14 +4,15 @@ import { makeStyles } from "@material-ui/styles";
 import Home from "./components/pages/Home";
 import AddBlog from "./components/pages/AddBlog";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import BlogContextProvider from "./context/blogContext";
 import Blog from "./components/pages/Blog";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 function App() {
   const classes = useStyles();
   return (
     <Router>
-      <BlogContextProvider>
+      <Provider store={store}>
         <div className={classes.root}>
           <Navbar />
           <Switch>
@@ -20,7 +21,8 @@ function App() {
             <Route exact path="/:id" component={Blog} />
           </Switch>
         </div>
-      </BlogContextProvider>
+      </Provider>
+
     </Router>
   );
 }

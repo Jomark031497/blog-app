@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { BlogContext } from "../../context/blogContext";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
+import { useSelector } from "react-redux";
 const Blog = (props) => {
   const { match } = props;
   const { params } = match;
@@ -8,7 +8,7 @@ const Blog = (props) => {
   const classes = useStyles();
   const [blog, setBlog] = useState({});
 
-  const { blogs } = useContext(BlogContext);
+  const blogs = useSelector(state => state.blogs);
 
   useEffect(() => {
     console.log("useEffect run");
