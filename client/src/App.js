@@ -8,10 +8,14 @@ import store from "./redux/store";
 import { Grid } from "@material-ui/core";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import { useEffect } from "react";
 
 
 function App() {
 
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <Router>

@@ -18,6 +18,7 @@ const Home = () => {
 
   return (
     <div className={classes.root}>
+      <div></div>
       <div className={classes.blogs}>
         {blogs.length ? (
           blogs.map((blog) => (

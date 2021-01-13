@@ -10,7 +10,6 @@ const AddBlog = () => {
 
   const [blog, setBlog] = useState({
     title: "",
-    author: "",
     content: "",
   });
 

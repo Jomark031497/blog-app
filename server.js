@@ -8,12 +8,17 @@ const userRoutes = require("./routes/userRoutes");
 
 // setup express
 const app = express();
-const PORT = process.env.PORT || 1337;
+const PORT = process.env.PORT || 5000;
 
 // setup mongoose
 mongoose.connect(
   process.env.MONGODB_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  },
   () => console.log("Connected to mongoDB")
 );
 

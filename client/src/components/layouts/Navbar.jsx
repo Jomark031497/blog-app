@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -22,11 +21,16 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    document.cookie = "jwt=null"
+    document.cookie = "jwt=null";
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const toFirstLetter = (name) => {
+    const s = name.charAt(0);
+    return s.toUpperCase();
   };
 
   return (
@@ -64,7 +68,9 @@ const Navbar = () => {
               <li className={classes.navlink}>
                 <div>
                   <IconButton onClick={handleClick}>
-                    <Avatar className={classes.orange}></Avatar>
+                    <Avatar className={classes.orange}>
+                      {toFirstLetter(user.user.username)}
+                    </Avatar>
                   </IconButton>
                   <Menu
                     id="simple-menu"
