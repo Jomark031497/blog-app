@@ -1,7 +1,8 @@
 import { Button, TextField, Typography } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/styles";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createUser } from "../../redux";
 
@@ -14,7 +15,9 @@ const Register = () => {
     password: "",
   });
 
+  const data = useSelector(state => state.userRegister)
   const dispatch = useDispatch();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createUser(credentials));
@@ -26,12 +29,18 @@ const Register = () => {
         <Typography variant="h5" className={classes.header}>
           Register
         </Typography>
+
+        <div className={classes.alert}>
+          {data.error ? <Alert severity="error">{data.error}</Alert> : ""}
+        </div>
+
         <div className={classes.fields}>
           <TextField
             type="text"
             variant="outlined"
             label="Username"
             size="small"
+            required
             className={classes.textfield}
             value={credentials.username}
             onChange={(e) =>
@@ -46,6 +55,7 @@ const Register = () => {
             variant="outlined"
             label="Email Address"
             size="small"
+            required
             className={classes.textfield}
             value={credentials.email}
             onChange={(e) =>
@@ -60,6 +70,7 @@ const Register = () => {
             variant="outlined"
             label="Password"
             size="small"
+            required
             className={classes.textfield}
             value={credentials.password}
             onChange={(e) =>

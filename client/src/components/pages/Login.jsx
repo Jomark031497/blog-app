@@ -1,9 +1,10 @@
 import { makeStyles } from "@material-ui/styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Typography, TextField, Button } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 const Login = () => {
   const classes = useStyles();
@@ -11,7 +12,6 @@ const Login = () => {
     username: "",
     password: "",
   });
-  const history = useHistory();
   const dispatch = useDispatch();
   const data = useSelector((state) => state.userLogin);
 
@@ -20,18 +20,15 @@ const Login = () => {
     dispatch(fetchUser(credentials));
   };
 
-  useEffect(() => {
-    if (data.userInfo) {
-      history.push("/");
-    }
-  }, [data, history]);
-
   return (
     <>
       <form className={classes.root} onSubmit={handleSubmit}>
         <Typography variant="h5" className={classes.header}>
           Login
         </Typography>
+        <div className={classes.alert}>
+          {data.error ? <Alert severity="error">{data.error}</Alert> : ""}
+        </div>
         <div className={classes.fields}>
           <TextField
             variant="outlined"
@@ -59,7 +56,12 @@ const Login = () => {
             }
           />
         </div>
-        <Button type="submit" variant="outlined" color="primary" className={classes.submitBtn}>
+        <Button
+          type="submit"
+          variant="outlined"
+          color="primary"
+          className={classes.submitBtn}
+        >
           Login
         </Button>
         <div className={classes.noAccount}>
@@ -78,7 +80,7 @@ const useStyles = makeStyles({
     minHeight: "90vh",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   header: {
     textAlign: "center",
@@ -95,6 +97,9 @@ const useStyles = makeStyles({
     textAlign: "center",
     margin: "1rem auto",
   },
+  alert:{
+    marginBottom: "1rem"
+  }
 });
 
 export default Login;

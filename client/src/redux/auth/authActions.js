@@ -9,9 +9,7 @@ import {
 } from "./authTypes";
 
 /**
- *
  * FETCH USER
- *
  */
 export const fetchUserRequest = () => {
   return {
@@ -36,13 +34,12 @@ export const fetchUserError = (error) => {
 export const fetchUser = (user) => {
   return async (dispatch) => {
     dispatch(fetchUserRequest);
-
     try {
       const res = await axios.post("/users/login", user);
       const data = res.data;
       dispatch(fetchUserSuccess(data));
-    } catch (err) {
-      dispatch(fetchUserError(err));
+    } catch ( err) {
+      dispatch(fetchUserError(err.response.data.msg));
     }
   };
 };
@@ -83,7 +80,7 @@ export const createUser = (user) => {
       const data = res.data;
       dispatch(createUserSuccess(data));
     } catch (err) {
-      dispatch(createUserError(err));
+      dispatch(createUserError(err.response.data.msg));
     }
   };
 };

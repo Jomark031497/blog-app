@@ -35,7 +35,6 @@ const registerUser = async (req, res) => {
     res
       .status(200)
       .json({ user: { id: createdUser._id, username: createdUser.username } });
-      
   } catch (err) {
     res.status(400).json({ msg: err });
   }
@@ -57,7 +56,7 @@ const loginUser = async (req, res) => {
 
     // check if password match
     if (!decryptPassword)
-      return res.status(400).json({ msg: "invalid password" });
+      return res.status(400).json({ msg: `invalid username/password` });
 
     // create token
     const token = createToken(user._id);
