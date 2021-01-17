@@ -7,6 +7,7 @@ import {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_ERROR,
+  LOGOUT_USER,
 } from "./authTypes";
 
 /**
@@ -48,6 +49,26 @@ export const fetchUser = (user) => {
       dispatch(fetchUserSuccess(data));
     } catch (err) {
       dispatch(fetchUserError(err.response.data.msg));
+    }
+  };
+};
+
+export const logoutUserRequest = () => {
+  return {
+    type: LOGOUT_USER,
+  };
+};
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    try {
+      await axios.get("/users/logout", {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      dispatch(logoutUserRequest());
+    } catch (err) {
+      console.log(err.message);
     }
   };
 };

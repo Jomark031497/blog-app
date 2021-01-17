@@ -13,10 +13,10 @@ router.get("/", requireAuth, showAllBlogs);
 
 // METHOD: GET
 // DESC: GET A SINGLE BLOG
-router.get("/:id", getBlog);
+router.get("/:id", requireAuth, getBlog);
 
 // METHOD: POST
 // DESC: CREATE A NEW BLOG
-router.post("/create", createBlog);
+router.post("/create", requireAuth, createBlog);
 
 module.exports = router;

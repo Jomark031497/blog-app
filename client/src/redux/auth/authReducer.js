@@ -6,6 +6,7 @@ import {
   FETCH_USER_ERROR,
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
+  LOGOUT_USER,
 } from "./authTypes";
 
 const loginInitialState = {
@@ -46,6 +47,9 @@ export const userLoginReducer = (state = loginInitialState, action) => {
         error: "",
       };
 
+    case LOGOUT_USER:
+      return {};
+      
     default:
       return state;
   }

@@ -9,12 +9,12 @@ const Home = () => {
   const classes = useStyles();
 
   const blogs = useSelector((state) => state.fetchBlogs.blogs);
+  const user = useSelector((state) => state.userLogin.userInfo);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchBlogs());
-    // eslint-disable-next-line
-  }, []);
+  }, [dispatch, user]);
 
   return (
     <div className={classes.root}>

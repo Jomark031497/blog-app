@@ -1,27 +1,34 @@
 import {
   AppBar,
-  Link as MLink,
+  Avatar,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logoutUser } from "../../redux";
 
 const Navbar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector((state) => state.userLogin.userInfo);
+  const [currentUser, setCurrentUser] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleLogout = () => {
-    setAnchorEl(null);
+  const handleLogout = async () => {
+    dispatch(logoutUser());
   };
 
   const handleClose = () => {
@@ -60,12 +67,12 @@ const Navbar = () => {
               </span>
             </li>
 
-            {user ? (
+            {currentUser ? (
               <li className={classes.navlink}>
                 <>
-                  <MLink className={classes.routerLink} onClick={handleClick}>
-                    {user.username}
-                  </MLink>
+                  <Avatar onClick={handleClick}>
+                    {currentUser.username}
+                  </Avatar>
 
                   <Menu
                     id="simple-menu"
