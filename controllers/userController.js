@@ -66,6 +66,7 @@ const loginUser = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
+        cookie: req.cookies,
       },
     });
   } catch (err) {
@@ -75,13 +76,37 @@ const loginUser = async (req, res) => {
 
 const logoutUser = (req, res) => {
   try {
-    res.json({ msg: "cookies cleared" }).clearCookie("jwt");
+    res.clearCookie("jwt").json({ msg: req.cookies.jwt });
   } catch (err) {
     res.status(400).json({ msg: err });
   }
 };
+
+const isTokenValid = async (req, res) => {
+  try {
+    const token = req.cookies.jwt;
+    if (!token) return res.json(false);
+
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    if (!verified) return res.json(false);
+
+    const verifiedUser = await Users.findById(verified.id);
+    if (!verifiedUser) return res.json(false);
+
+    return res.json({
+      user: {
+        id: verifiedUser.id,
+        username: verifiedUser.username,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  isTokenValid,
 };

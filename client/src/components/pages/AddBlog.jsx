@@ -1,33 +1,32 @@
 import { Button, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import axios from "axios";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { createBlog } from "../../redux";
 
 const AddBlog = () => {
   const classes = useStyles();
-  const history = useHistory();
-
   const [blog, setBlog] = useState({
     title: "",
     content: "",
   });
 
+  const user = useSelector((state) => state.userLogin.userInfo.user);
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!blog.title || !blog.author || !blog.content) return;
+    if (!blog.title || !blog.content) return;
 
-    try {
-      await axios.post("/blogs/create", blog, {
-        headers: { ContentType: "application/json" },
-      });
-    } catch (err) {
-      console.log(err.message);
-    }
+    const newBlog = {
+      title: blog.title,
+      author: user.username,
+      content: blog.content,
+    };
+
+    dispatch(createBlog(newBlog));
 
     setBlog({ title: "", author: "", content: "" });
-
-    history.push("/");
   };
   return (
     <form onSubmit={handleSubmit} className={classes.root}>
@@ -60,7 +59,12 @@ const AddBlog = () => {
         />
       </div>
 
-      <Button type="submit" variant="outlined" color="primary" className={classes.submitBtn}>
+      <Button
+        type="submit"
+        variant="outlined"
+        color="primary"
+        className={classes.submitBtn}
+      >
         Add Blog
       </Button>
     </form>

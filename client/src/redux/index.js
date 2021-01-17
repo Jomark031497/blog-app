@@ -1,2 +1,2 @@
-export { fetchBlogs, getBlog } from "./blog/blogActions";
-export { fetchUser, createUser } from "./auth/authActions";
+export { fetchBlogs, getBlog, createBlog } from "./blog/blogActions";
+export { fetchUser, createUser, fetchLoggedIn } from "./auth/authActions";

@@ -2,6 +2,7 @@ import {
   CREATE_USER_ERROR,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
+  FETCH_LOGGED_IN,
   FETCH_USER_ERROR,
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
@@ -37,6 +38,14 @@ export const userLoginReducer = (state = loginInitialState, action) => {
         error: action.payload,
       };
 
+    case FETCH_LOGGED_IN:
+      return {
+        ...state,
+        loading: false,
+        userInfo: action.payload,
+        error: "",
+      };
+
     default:
       return state;
   }
@@ -57,9 +66,8 @@ export const userRegisterReducer = (state = registerInitialState, action) => {
       return { ...state, loading: false, userInfo: action.payload, error: "" };
 
     case CREATE_USER_ERROR:
-      return { ...state, loading: false, userInfo: "", error: action.payload}
+      return { ...state, loading: false, userInfo: "", error: action.payload };
     default:
       return state;
   }
 };
-

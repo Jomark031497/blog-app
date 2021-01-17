@@ -3,6 +3,7 @@ import {
   FETCH_USER_REQUEST,
   FETCH_USER_ERROR,
   FETCH_USER_SUCCESS,
+  FETCH_LOGGED_IN,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_ERROR,
@@ -31,6 +32,13 @@ export const fetchUserError = (error) => {
   };
 };
 
+export const fetchLoggedIn = (user) => {
+  return {
+    type: FETCH_LOGGED_IN,
+    payload: user,
+  };
+};
+
 export const fetchUser = (user) => {
   return async (dispatch) => {
     dispatch(fetchUserRequest);
@@ -38,7 +46,7 @@ export const fetchUser = (user) => {
       const res = await axios.post("/users/login", user);
       const data = res.data;
       dispatch(fetchUserSuccess(data));
-    } catch ( err) {
+    } catch (err) {
       dispatch(fetchUserError(err.response.data.msg));
     }
   };

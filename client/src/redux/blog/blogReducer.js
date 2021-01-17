@@ -1,4 +1,7 @@
 import {
+  CREATE_BLOG_ERROR,
+  CREATE_BLOG_REQUEST,
+  CREATE_BLOG_SUCCESS,
   FETCH_BLOGS_ERROR,
   FETCH_BLOGS_REQUEST,
   FETCH_BLOGS_SUCCESS,
@@ -68,6 +71,35 @@ export const getBlogReducer = (state = getBlogInitialState, action) => {
         blog: "",
         error: action.payload,
       };
+    default:
+      return state;
+  }
+};
+
+export const createBlogReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CREATE_BLOG_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case CREATE_BLOG_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload,
+        error: "",
+      };
+
+    case CREATE_BLOG_ERROR:
+      return {
+        ...state,
+        loading: false,
+        success: "",
+        error: action.payload,
+      };
+
     default:
       return state;
   }

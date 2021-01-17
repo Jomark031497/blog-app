@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
-
+const { requireAuth } = require("./middlewares/auth");
 // setup express
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // routes
-app.use("/blogs", blogRoutes);
+app.use("/blogs", requireAuth, blogRoutes);
 app.use("/users", userRoutes);
 
 app.listen(PORT, () => console.log(`listening to port ${PORT}!`));

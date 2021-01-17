@@ -1,7 +1,6 @@
 import {
   AppBar,
-  Avatar,
-  IconButton,
+  Link as MLink,
   Menu,
   MenuItem,
   Toolbar,
@@ -16,21 +15,18 @@ const Navbar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector((state) => state.userLogin.userInfo);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleLogout = () => {
-    document.cookie = "jwt=null";
+    setAnchorEl(null);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const toFirstLetter = (name) => {
-    const s = name.charAt(0);
-    return s.toUpperCase();
+    console.log("closed");
   };
 
   return (
@@ -66,12 +62,11 @@ const Navbar = () => {
 
             {user ? (
               <li className={classes.navlink}>
-                <div>
-                  <IconButton onClick={handleClick}>
-                    <Avatar className={classes.orange}>
-                      {toFirstLetter(user.user.username)}
-                    </Avatar>
-                  </IconButton>
+                <>
+                  <MLink className={classes.routerLink} onClick={handleClick}>
+                    {user.username}
+                  </MLink>
+
                   <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}
@@ -83,7 +78,7 @@ const Navbar = () => {
                     <MenuItem onClick={handleClose}>My account</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
-                </div>
+                </>
               </li>
             ) : (
               <li className={classes.navlink}>
