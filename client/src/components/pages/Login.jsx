@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Typography, TextField, Button } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
@@ -14,10 +14,12 @@ const Login = () => {
   });
   const dispatch = useDispatch();
   const data = useSelector((state) => state.userLogin);
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(fetchUser(credentials));
+    history.push("/blogs");
   };
 
   return (
@@ -97,9 +99,9 @@ const useStyles = makeStyles({
     textAlign: "center",
     margin: "1rem auto",
   },
-  alert:{
-    marginBottom: "1rem"
-  }
+  alert: {
+    marginBottom: "1rem",
+  },
 });
 
 export default Login;

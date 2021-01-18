@@ -1,27 +1,16 @@
-import {
-  AppBar,
-  Avatar,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
+import { AppBar, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { logoutUser } from "../../redux";
 
 const Navbar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector((state) => state.userLogin.userInfo);
-  const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setCurrentUser(user);
-  }, [user]);
+  const history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,12 +18,15 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     dispatch(logoutUser());
+    setAnchorEl(null);
+    history.push("/login");
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-    console.log("closed");
   };
+
+  
 
   return (
     <>
@@ -67,22 +59,15 @@ const Navbar = () => {
               </span>
             </li>
 
-            {currentUser ? (
+            {user && user ? (
               <li className={classes.navlink}>
                 <>
-                  <Avatar onClick={handleClick}>
-                    {currentUser.username}
-                  </Avatar>
-
+                  <p onClick={handleClick}>{user.username}</p>
                   <Menu
-                    id="simple-menu"
                     anchorEl={anchorEl}
-                    keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </>

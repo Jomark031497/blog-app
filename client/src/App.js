@@ -36,6 +36,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/blogs" component={Home} />
             <Route exact path="/add-blog" component={AddBlog} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />

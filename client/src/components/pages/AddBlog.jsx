@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBlog } from "../../redux";
+import { useHistory } from "react-router-dom";
 
 const AddBlog = () => {
   const classes = useStyles();
@@ -11,8 +12,9 @@ const AddBlog = () => {
     content: "",
   });
 
-  const user = useSelector((state) => state.userLogin.userInfo.user);
+  const user = useSelector((state) => state.userLogin.userInfo);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ const AddBlog = () => {
     dispatch(createBlog(newBlog));
 
     setBlog({ title: "", author: "", content: "" });
+    history.push("/");
   };
   return (
     <form onSubmit={handleSubmit} className={classes.root}>
