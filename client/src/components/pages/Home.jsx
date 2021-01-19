@@ -13,12 +13,15 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchBlogs());
+    try {
+      dispatch(fetchBlogs());
+    } catch (err) {
+      console.log(err);
+    }
   }, [dispatch, user]);
 
   return (
     <div className={classes.root}>
-      <div></div>
       <div className={classes.blogs}>
         {blogs.length ? (
           blogs.map((blog) => (

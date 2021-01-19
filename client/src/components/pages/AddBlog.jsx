@@ -31,46 +31,57 @@ const AddBlog = () => {
     setBlog({ title: "", author: "", content: "" });
     history.push("/");
   };
+
   return (
-    <form onSubmit={handleSubmit} className={classes.root}>
-      <Typography variant="h5" color="textPrimary" className={classes.header}>
-        Add a New Blog
-      </Typography>
-      <div className={classes.fields}>
-        <TextField
-          variant="outlined"
-          label="Title"
-          fullWidth
-          className={classes.textfield}
-          value={blog.title}
-          onChange={(e) => setBlog({ ...blog, title: e.target.value })}
-          required
-        />
-      </div>
+    <>
+      {user ? (
+        <form onSubmit={handleSubmit} className={classes.root}>
+          <Typography
+            variant="h5"
+            color="textPrimary"
+            className={classes.header}
+          >
+            Add a New Blog
+          </Typography>
+          <div className={classes.fields}>
+            <TextField
+              variant="outlined"
+              label="Title"
+              fullWidth
+              className={classes.textfield}
+              value={blog.title}
+              onChange={(e) => setBlog({ ...blog, title: e.target.value })}
+              required
+            />
+          </div>
 
-      <div className={classes.fields}>
-        <TextField
-          multiline
-          label="Content"
-          variant="outlined"
-          fullWidth
-          rows={8}
-          className={classes.textfield}
-          value={blog.content}
-          onChange={(e) => setBlog({ ...blog, content: e.target.value })}
-          required
-        />
-      </div>
+          <div className={classes.fields}>
+            <TextField
+              multiline
+              label="Content"
+              variant="outlined"
+              fullWidth
+              rows={8}
+              className={classes.textfield}
+              value={blog.content}
+              onChange={(e) => setBlog({ ...blog, content: e.target.value })}
+              required
+            />
+          </div>
 
-      <Button
-        type="submit"
-        variant="outlined"
-        color="primary"
-        className={classes.submitBtn}
-      >
-        Add Blog
-      </Button>
-    </form>
+          <Button
+            type="submit"
+            variant="outlined"
+            color="primary"
+            className={classes.submitBtn}
+          >
+            Add Blog
+          </Button>
+        </form>
+      ) : (
+        <p>please login first</p>
+      )}
+    </>
   );
 };
 

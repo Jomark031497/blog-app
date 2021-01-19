@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux";
 import { Link, useHistory } from "react-router-dom";
@@ -18,61 +18,67 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchUser(credentials));
-    history.push("/blogs");
+    try {
+      dispatch(fetchUser(credentials));
+      history.push("/blogs");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  return (
-    <>
-      <form className={classes.root} onSubmit={handleSubmit}>
-        <Typography variant="h5" className={classes.header}>
-          Login
-        </Typography>
-        <div className={classes.alert}>
-          {data.error ? <Alert severity="error">{data.error}</Alert> : ""}
-        </div>
-        <div className={classes.fields}>
-          <TextField
-            variant="outlined"
-            label="Username"
-            type="text"
-            size="small"
-            className={classes.textfield}
-            value={credentials.username}
-            onChange={(e) =>
-              setCredentials({ ...credentials, username: e.target.value })
-            }
-          />
-        </div>
+  useEffect(() => {
+    if (data.error) history.push("/blogs");
+  }, [data, history]);
 
-        <div className={classes.fields}>
-          <TextField
-            variant="outlined"
-            label="Password"
-            type="password"
-            size="small"
-            className={classes.textfield}
-            value={credentials.password}
-            onChange={(e) =>
-              setCredentials({ ...credentials, password: e.target.value })
-            }
-          />
-        </div>
-        <Button
-          type="submit"
+  return (
+    <form className={classes.root} onSubmit={handleSubmit}>
+      <Typography variant="h5" className={classes.header}>
+        Login
+      </Typography>
+      <div className={classes.alert}>
+        {data.error ? <Alert severity="error">{data.error}</Alert> : ""}
+      </div>
+      <div className={classes.fields}>
+        <TextField
           variant="outlined"
-          color="primary"
-          className={classes.submitBtn}
-        >
-          Login
-        </Button>
-        <div className={classes.noAccount}>
-          <Typography variant="subtitle1">
-            No account yet? <Link to="/register">Register Here</Link>
-          </Typography>
-        </div>
-      </form>
-    </>
+          label="Username"
+          type="text"
+          size="small"
+          className={classes.textfield}
+          value={credentials.username}
+          onChange={(e) =>
+            setCredentials({ ...credentials, username: e.target.value })
+          }
+        />
+      </div>
+
+      <div className={classes.fields}>
+        <TextField
+          variant="outlined"
+          label="Password"
+          type="password"
+          size="small"
+          className={classes.textfield}
+          value={credentials.password}
+          onChange={(e) =>
+            setCredentials({ ...credentials, password: e.target.value })
+          }
+        />
+      </div>
+      <Button
+        type="submit"
+        variant="outlined"
+        color="primary"
+        className={classes.submitBtn}
+      >
+        Login
+      </Button>
+      <div className={classes.noAccount}>
+        <Typography variant="subtitle1">
+          No account yet? <Link to="/register">Register Here</Link>
+        </Typography>
+      </div>
+    </form>
   );
 };
 
