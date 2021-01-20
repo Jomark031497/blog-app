@@ -1,4 +1,7 @@
 import {
+  ADD_COMMENT_ERROR,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
   CREATE_BLOG_ERROR,
   CREATE_BLOG_REQUEST,
   CREATE_BLOG_SUCCESS,
@@ -126,6 +129,35 @@ export const upvoteReducer = (state = {}, action) => {
     case UPVOTE_BLOG_ERROR:
       return {
         ...state,
+        success: "",
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const addCommentReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADD_COMMENT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case ADD_COMMENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload,
+        error: "",
+      };
+
+    case ADD_COMMENT_ERROR:
+      return {
+        ...state,
+        loading: false,
         success: "",
         error: action.payload,
       };

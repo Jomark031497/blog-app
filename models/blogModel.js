@@ -9,6 +9,14 @@ const blogSchema = new Schema(
     dateCreated: { type: Date, default: Date.now() },
     upvotes: { type: Number },
     downvotes: { type: Number },
+    likedBy: [{ type: String }],
+    comments: [
+      {
+        username: String,
+        commentBody: String,
+        date: { type: Date, default: Date.now() },
+      },
+    ],
   },
   {
     timestamps: true,

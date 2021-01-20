@@ -2,7 +2,7 @@ import Navbar from "./components/layouts/Navbar";
 import Home from "./components/pages/Home";
 import AddBlog from "./components/pages/AddBlog";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Blog from "./components/pages/Blog";
+import BlogDetails from "./components/pages/BlogDetails";
 import { Grid } from "@material-ui/core";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
@@ -40,7 +40,7 @@ function App() {
             <Route exact path="/add-blog" component={AddBlog} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/:id" render={(props) => <Blog {...props} />} />
+            <Route exact path="/:id" render={(props) => <BlogDetails {...props} />} />
           </Switch>
         </Grid>
       </Grid>

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
 const Blogs = require("../models/blogModel");
+const Users = require("../models/userModel");
 
 const showAllBlogs = async (req, res) => {
   try {
@@ -34,7 +34,7 @@ const createBlog = async (req, res) => {
     const saveBlog = await newBlog.save();
     res.json(saveBlog);
   } catch (err) {
-    res.status(400).json({ msg: err });
+    res.status(400).json({ msg: err.message });
   }
 };
 
@@ -47,7 +47,35 @@ const upvoteBlog = async (req, res) => {
       }
     );
 
+    await Users.findOneAndUpdate(
+      { username: req.body.username },
+      {
+        $push: { likedBlogs: req.body.id },
+      }
+    );
+
     res.json({ msg: "success" });
+  } catch (err) {
+    res.status(400).json({ msg: err });
+  }
+};
+
+const commentBlog = async (req, res) => {
+
+  try {
+    const commentRes = await Blogs.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        $push: {
+          comments: {
+            username: req.body.username,
+            commentBody: req.body.commentBody,
+          },
+        },
+      }
+    );
+
+    res.status(200).json(commentRes);
   } catch (err) {
     res.status(400).json({ msg: err });
   }
@@ -58,4 +86,5 @@ module.exports = {
   createBlog,
   getBlog,
   upvoteBlog,
+  commentBlog,
 };

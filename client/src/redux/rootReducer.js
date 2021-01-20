@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import {
+  addCommentReducer,
   createBlogReducer,
   fetchBlogsReducer,
   getBlogReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   blogUpvote: upvoteReducer,
+  addComment: addCommentReducer,
 });
 
 export default rootReducer;

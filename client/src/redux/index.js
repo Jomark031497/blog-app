@@ -3,6 +3,7 @@ export {
   getBlog,
   createBlog,
   upvoteBlog,
+  addComment
 } from "./blog/blogActions";
 export {
   fetchUser,

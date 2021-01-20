@@ -1,4 +1,7 @@
 import {
+  ADD_COMMENT_ERROR,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
   CREATE_BLOG_ERROR,
   CREATE_BLOG_REQUEST,
   CREATE_BLOG_SUCCESS,
@@ -93,7 +96,7 @@ export const getBlog = (id) => {
       const data = res.data;
       dispatch(getBlogSuccess(data));
     } catch (err) {
-      dispatch(getBlogError(err.response.data.msg));
+      dispatch(getBlogError(err));
     }
   };
 };
@@ -164,13 +167,13 @@ export const upvoteBlogError = (error) => {
   };
 };
 
-export const upvoteBlog = (id) => {
+export const upvoteBlog = (id, username) => {
   return async (dispatch) => {
     dispatch(upvoteBlogRequest);
     try {
       const res = await axios.put(
         "blogs/upvote",
-        { id: id },
+        { id: id, username },
         {
           headers: { "Content-Type": "application/json" },
         }
@@ -179,6 +182,44 @@ export const upvoteBlog = (id) => {
       dispatch(upvoteBlogSuccess(res.data));
     } catch (err) {
       dispatch(upvoteBlogError(err.response.data.message));
+    }
+  };
+};
+
+export const addCommentRequest = () => {
+  return {
+    type: ADD_COMMENT_REQUEST,
+  };
+};
+
+export const addCommentSuccess = (success) => {
+  return {
+    type: ADD_COMMENT_SUCCESS,
+    payload: success,
+  };
+};
+export const addCommentError = (error) => {
+  return {
+    type: ADD_COMMENT_ERROR,
+    payload: error,
+  };
+};
+
+export const addComment = (id, comments) => {
+  return async (dispatch) => {
+    dispatch(addCommentRequest);
+    try {
+      const res = await axios.put(
+        `/blogs/comment/${id}`,
+        comments,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      dispatch(addCommentSuccess(res.data));
+    } catch (err) {
+      dispatch(upvoteBlogError(err));
     }
   };
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { IconButton, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -6,44 +5,49 @@ import ThumbUp from "@material-ui/icons/ThumbUpAlt";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import CommentIcon from "@material-ui/icons/Comment";
 import { upvoteBlog } from "../../redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 const BlogCard = ({ blog }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const calculateVotes = (up, down) => {
     return parseInt(up) - parseInt(down);
   };
-
-  const dispatch = useDispatch();
+  const loggedUser = useSelector((state) => state.userLogin.userInfo);
 
   const handleUpvote = (e) => {
-    dispatch(upvoteBlog(e.currentTarget.id));
+    dispatch(upvoteBlog(e.currentTarget.parentNode.id, loggedUser.username));
   };
-  
+
+  const handleDownvote = (e) => {
+    console.log(e.currentTarget.parentNode.id);
+  };
+
   return (
     <>
       <div className={classes.root} key={blog._id}>
-        <div className={classes.voteButtons}>
-          <IconButton onClick={handleUpvote} id={blog._id}>
+        <div className={classes.voteButtons} id={blog._id}>
+          <IconButton onClick={handleUpvote}>
             <ThumbUp />
           </IconButton>
           <div>{calculateVotes(blog.upvotes, blog.downvotes)}</div>
-          <IconButton>
+          <IconButton onClick={handleDownvote}>
             <ThumbDown />
           </IconButton>
         </div>
         <div className={classes.frontmatter}>
-          <Typography variant="subtitle1" color="textSecondary">
-            posted by {blog.author}
-          </Typography>
           <Typography variant="h5" className={classes.blogTitle}>
             <Link to={`${blog._id}`} className={classes.routerLink}>
               {blog.title}
             </Link>
           </Typography>
+          <Typography variant="subtitle2" color="textSecondary">
+            posted by {blog.author} - {moment(blog.createdAt).fromNow()}
+          </Typography>
           <div className={classes.actionButtons}>
             <div className={classes.commentBox}>
-              <CommentIcon /> 69 comments
+              <CommentIcon /> <Typography variant="body2">69 comments</Typography>
             </div>
           </div>
         </div>
