@@ -38,15 +38,8 @@ const Navbar = () => {
               Home
             </Link>
           </li>
-          <li className={classes.navlink}>
-            <Link to="/add-blog" className={classes.routerLink}>
-              Add Blog
-            </Link>
-          </li>
 
-          <li>
-            <AuthOptions user={currentUser} />
-          </li>
+          <AuthOptions user={currentUser} />
         </ul>
       </Toolbar>
     </AppBar>

@@ -8,7 +8,6 @@ const AuthOptions = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const classes = useStyles();
-  console.log(user);
 
   const menuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,14 +25,21 @@ const AuthOptions = ({ user }) => {
     <>
       {user ? (
         <>
-          <p onClick={menuOpen}>user</p>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={menuClose}
-          >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </Menu>
+          <li className={classes.navlink}>
+            <Link to="/add-blog" className={classes.routerLink}>
+              Add Blog
+            </Link>
+          </li>
+          <li className={classes.navlink}>
+            <p onClick={menuOpen}>user</p>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={menuClose}
+            >
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </li>
         </>
       ) : (
         <Link to="/login" className={classes.routerLink}>

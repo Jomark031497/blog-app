@@ -4,6 +4,7 @@ const {
   showAllBlogs,
   createBlog,
   getBlog,
+  upvoteBlog,
 } = require("../controllers/blogController");
 const { requireAuth } = require("../middlewares/auth");
 
@@ -18,5 +19,7 @@ router.get("/:id", requireAuth, getBlog);
 // METHOD: POST
 // DESC: CREATE A NEW BLOG
 router.post("/create", requireAuth, createBlog);
+
+router.put("/upvote", requireAuth, upvoteBlog);
 
 module.exports = router;

@@ -8,6 +8,9 @@ import {
   GET_BLOG_ERROR,
   GET_BLOG_REQUEST,
   GET_BLOG_SUCCESS,
+  UPVOTE_BLOG_ERROR,
+  UPVOTE_BLOG_REQUEST,
+  UPVOTE_BLOG_SUCCESS,
 } from "./blogTypes";
 
 const fetchBlogsInitialState = {
@@ -96,6 +99,33 @@ export const createBlogReducer = (state = {}, action) => {
       return {
         ...state,
         loading: false,
+        success: "",
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const upvoteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPVOTE_BLOG_REQUEST:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case UPVOTE_BLOG_SUCCESS:
+      return {
+        ...state,
+        success: action.payload,
+        error: "",
+      };
+
+    case UPVOTE_BLOG_ERROR:
+      return {
+        ...state,
         success: "",
         error: action.payload,
       };

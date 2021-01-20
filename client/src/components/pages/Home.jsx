@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/styles";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchBlogs } from "../../redux";
 import { Typography } from "@material-ui/core";
+import BlogCard from "./BlogCard";
 
 const Home = () => {
   const classes = useStyles();
@@ -12,30 +12,22 @@ const Home = () => {
   const user = useSelector((state) => state.userLogin.userInfo);
   const dispatch = useDispatch();
 
+  const [allBlogs, setAllBlogs] = useState({});
+
   useEffect(() => {
     try {
       dispatch(fetchBlogs());
+      setAllBlogs(blogs);
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, user]);
+  }, [dispatch, user, blogs]);
 
   return (
     <div className={classes.root}>
       <div className={classes.blogs}>
-        {blogs.length ? (
-          blogs.map((blog) => (
-            <div className={classes.blogCard} key={blog._id}>
-              <Typography variant="h5" className={classes.blogTitle}>
-                <Link to={`${blog._id}`} className={classes.routerLink}>
-                  {blog.title}
-                </Link>
-              </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                Written by {blog.author}
-              </Typography>
-            </div>
-          ))
+        {allBlogs && allBlogs.length ? (
+          allBlogs.map((blog) => <BlogCard blog={blog} key={blog._id} />)
         ) : (
           <div>
             <Typography variant="h5">No blogs yet! </Typography>

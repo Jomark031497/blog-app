@@ -1,5 +1,10 @@
 import { combineReducers } from "redux";
-import { createBlogReducer, fetchBlogsReducer, getBlogReducer } from "./blog/blogReducer";
+import {
+  createBlogReducer,
+  fetchBlogsReducer,
+  getBlogReducer,
+  upvoteReducer,
+} from "./blog/blogReducer";
 import { userLoginReducer, userRegisterReducer } from "./auth/authReducer";
 
 const rootReducer = combineReducers({
@@ -8,6 +13,7 @@ const rootReducer = combineReducers({
   createBlog: createBlogReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  blogUpvote: upvoteReducer,
 });
 
 export default rootReducer;

@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Blogs = require("../models/blogModel");
 
 const showAllBlogs = async (req, res) => {
@@ -9,16 +10,14 @@ const showAllBlogs = async (req, res) => {
   }
 };
 
-const getBlog = async(req,res) => {
-
-  try{
+const getBlog = async (req, res) => {
+  try {
     const blog = await Blogs.findById(req.params.id);
     res.json(blog);
-  }
-  catch(err){
+  } catch (err) {
     res.status(400).json({ msg: err });
   }
-}
+};
 
 const createBlog = async (req, res) => {
   try {
@@ -28,6 +27,8 @@ const createBlog = async (req, res) => {
       title,
       author,
       content,
+      upvotes: 0,
+      downvotes: 0,
     });
 
     const saveBlog = await newBlog.save();
@@ -37,8 +38,24 @@ const createBlog = async (req, res) => {
   }
 };
 
+const upvoteBlog = async (req, res) => {
+  try {
+    await Blogs.findOneAndUpdate(
+      { _id: req.body.id },
+      {
+        $inc: { upvotes: 1 },
+      }
+    );
+
+    res.json({ msg: "success" });
+  } catch (err) {
+    res.status(400).json({ msg: err });
+  }
+};
+
 module.exports = {
   showAllBlogs,
   createBlog,
-  getBlog
+  getBlog,
+  upvoteBlog,
 };

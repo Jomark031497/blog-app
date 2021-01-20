@@ -8,6 +8,9 @@ import {
   GET_BLOG_ERROR,
   GET_BLOG_REQUEST,
   GET_BLOG_SUCCESS,
+  UPVOTE_BLOG_ERROR,
+  UPVOTE_BLOG_REQUEST,
+  UPVOTE_BLOG_SUCCESS,
 } from "./blogTypes";
 import axios from "axios";
 
@@ -131,6 +134,51 @@ export const createBlog = (blog) => {
       dispatch(createBlogSuccess(data));
     } catch (err) {
       dispatch(createBlogError(err.response.data.msg));
+    }
+  };
+};
+
+/**
+ *
+ * Upvote a blog
+ *
+ */
+
+export const upvoteBlogRequest = () => {
+  return {
+    type: UPVOTE_BLOG_REQUEST,
+  };
+};
+
+export const upvoteBlogSuccess = (success) => {
+  return {
+    type: UPVOTE_BLOG_SUCCESS,
+    payload: success,
+  };
+};
+
+export const upvoteBlogError = (error) => {
+  return {
+    type: UPVOTE_BLOG_ERROR,
+    payload: error,
+  };
+};
+
+export const upvoteBlog = (id) => {
+  return async (dispatch) => {
+    dispatch(upvoteBlogRequest);
+    try {
+      const res = await axios.put(
+        "blogs/upvote",
+        { id: id },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      dispatch(upvoteBlogSuccess(res.data));
+    } catch (err) {
+      dispatch(upvoteBlogError(err.response.data.message));
     }
   };
 };
